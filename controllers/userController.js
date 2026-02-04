@@ -21,6 +21,7 @@ exports.addUser = async (req, res) => {
 
 
 
+
 exports.getUsers = async (req, res) => {
   try {
     const page = parseInt(req.query.page) || 1;
@@ -188,7 +189,6 @@ exports.updateUserStatus = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
-
 
 const { Parser } = require("json2csv");
 

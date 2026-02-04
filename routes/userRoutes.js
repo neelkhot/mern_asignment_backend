@@ -13,11 +13,11 @@ const { addUser ,
 
 
 
-router.post("/", addUser);   
+router.post("/", addUser); 
+router.get("/search", searchUsers);  
 router.get("/export/csv", exportUsersCSV);
 router.get("/", getUsers);
 
-router.get("/search", searchUsers);
 router.patch("/:id/status", updateUserStatus);
 router.get("/:id", getUserById);
 
