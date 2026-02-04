@@ -9,9 +9,12 @@ const { addUser ,
   updateUserStatus
  } = require("../controllers/userController");
  const { addUsersBulk } = require("../controllers/userController");
+ const { exportUsersCSV } = require("../controllers/userController");
+
+
 
 router.post("/", addUser);   
-
+router.get("/export/csv", exportUsersCSV);
 router.get("/", getUsers);
 
 router.get("/search", searchUsers);

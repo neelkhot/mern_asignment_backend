@@ -188,3 +188,44 @@ exports.updateUserStatus = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+
+const { Parser } = require("json2csv");
+
+exports.exportUsersCSV = async (req, res) => {
+  try {
+    const users = await User.find().lean();
+
+    if (!users.length) {
+      return res.status(404).json({ message: "No users found" });
+    }
+
+    
+    const fields = [
+      { label: "ID", value: "_id" },
+      { label: "First Name", value: "firstName" },
+      { label: "Last Name", value: "lastName" },
+      { label: "Email", value: "email" },
+      { label: "Mobile", value: "mobile" },
+      { label: "Gender", value: "gender" },
+      { label: "Status", value: "status" },
+      { label: "Location", value: "location" },
+      { label: "Created At", value: "createdAt" },
+      { label: "Updated At", value: "updatedAt" }
+    ];
+
+    const parser = new Parser({ fields });
+    const csv = parser.parse(users);
+
+    res.header("Content-Type", "text/csv");
+    res.header(
+      "Content-Disposition",
+      "attachment; filename=users.csv"
+    );
+
+    res.status(200).send(csv);
+  } catch (error) {
+    console.error("CSV Export Error:", error.message);
+    res.status(500).json({ message: "Failed to export CSV" });
+  }
+};
